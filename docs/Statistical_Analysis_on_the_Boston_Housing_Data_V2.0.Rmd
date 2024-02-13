@@ -1,0 +1,87 @@
+# Loading the MASS library that contains the Boston Housing dataset and then loading the dataset
+library(MASS)
+data(Boston)
+
+# Calculating the number of rows and colums
+num_rows <- nrow(Boston)
+num_cols <- ncol(Boston)
+num_rows
+num_cols
+
+# Creating a frequency distribution for the crim variable
+labels1 = c("Low", "Medium", "High")
+breaks1 <- c(0, 10, 20, max(Boston$crim))
+freq_dist1 <- table(cut(Boston$crim, breaks = breaks1, include.lowest = TRUE))
+freq_dist1
+
+# Creating a frequency distribution for the tax variabe
+labels1 = c("Low", "Medium", "High")
+breaks1 <- quantile(Boston$tax, probs = c(0, 0.25, 0.5, 0.75, 1))
+freq_dist1 <- table(cut(Boston$tax, breaks = breaks1, include.lowest = TRUE))
+freq_dist1
+
+# Creating a frequency distribution for the ptratio variable
+labels1 = c("Low", "High")
+breaks1 <- c(min(Boston$ptratio), median(Boston$ptratio), max(Boston$ptratio))
+freq_dist1 <- table(cut(Boston$ptratio, breaks = breaks1, include.lowest = TRUE))
+freq_dist1
+
+# Creating summaries of crim, tax and ptratio varaibles
+summary(Boston$crim)
+IQR(Boston$crim)
+sd(Boston$crim)
+summary(Boston$tax)
+IQR(Boston$tax)
+sd(Boston$tax)
+summary(Boston$ptratio)
+IQR(Boston$ptratio)
+sd(Boston$ptratio)
+
+# Creating histograms of crim, tax and ptratio varaibles
+hist(Boston$crim, xlab = "Per Capita Crime Rate", main="")
+hist(Boston$tax, xlab = "Property Tax Rate", main="")
+hist(Boston$ptratio, xlab = "Pupil-Teacher Ratio", main="")
+
+# Calculating census tracts in this data set bound the Charles river
+sum(Boston$chas == 1)
+
+# Identifying the census tract with the lowest MEDV
+min_value <- min(Boston$medv)
+all_occurrences <- which(Boston$medv == min_value)
+all_occurrences
+Boston[all_occurrences, ]
+
+# Standardizing variables to create a Scatter Plot Matrix of selected variables
+variables <- c("medv", "crim", "tax", "ptratio")
+colors <- c('green', 'red', 'blue', 'yellow')
+standardized_data <- scale(Boston[variables])
+standardized_df <- as.data.frame(standardized_data)
+
+pairs(standardized_df, main = "", col = colors)
+
+# Creating a Heatmap based on the correlation coefficients
+cor1 <- cor(Boston)
+heatmap(cor1)
+
+# Creating a cross-classification table
+cut1 <- cut(Boston$medv, breaks = quantile(Boston$medv, probs = c(0, 1/3, 2/3, 1)), include.lowest = TRUE)
+cut2 <- cut(Boston$rm, breaks = quantile(Boston$rm, probs = c(0, 1/3, 2/3, 1)), include.lowest = TRUE)
+cross_table <- table(cut1, cut2)
+cross_table
+
+# Calculating correlation and linear correlation coefficients
+cor1 <- cor(Boston$medv, Boston$rm)
+cor2 <- cor.test(Boston$medv, Boston$rm, method = "pearson")
+cor1
+cor2
+
+# Creating boxplot of variables after standardizing them to check for outliers
+variables <- c("crim", "tax", "ptratio")
+colors <- c('red', 'blue', 'yellow')
+standardized_data <- scale(Boston[variables])
+standardized_df <- as.data.frame(standardized_data)
+boxplot(standardized_df, col = colors, main = "", horizontal = TRUE)
+boxplot(Boston$tax, Boston$crim, Boston$ptratio, horizontal = T)
+Boston[variables]
+      
+      
