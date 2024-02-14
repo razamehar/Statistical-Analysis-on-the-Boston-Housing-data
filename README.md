@@ -1,4 +1,4 @@
-# Statistical Analysis on the Boston Housing data using R
+# Statistical Analysis on the Boston Housing data
 
 ## Project Overview
 This repository contains a comprehensive statistical analysis of the Boston Housing Data using the R programming language. The analysis delves into the scale of measurement for different features within the dataset, providing an understanding of the nature of the data. Descriptive statistics were also computed, offering insights into the central tendency and variability of the variables.
